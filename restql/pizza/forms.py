@@ -12,4 +12,4 @@ class PizzaForm(forms.ModelForm):
 class ToppingsForm(forms.ModelForm):
     class Meta:
         model = Toppings
-        fields = ('name', 'quantity')
+        fields = ('name', 'quantity', 'pizza')

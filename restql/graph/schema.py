@@ -25,7 +25,7 @@ class PizzaMutation(DjangoModelFormMutation):
 
 
 class ToppingMutation(DjangoModelFormMutation):
-    topping = graphene.Field(PizzaType)
+    topping = graphene.Field(ToppingsType)
 
     class Meta:
         form_class = ToppingsForm

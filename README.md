@@ -4,9 +4,9 @@
 Deploy
 ------
 
-Для деплоя достаточно в директории набрать команду
+Для деплоя необходимо в директории набрать следующие комманды:
 
-```docker-compose -f docker-compose.yml up -d```
+```docker-compose build && docker-compose up -d```
 
 После чего api будет доступно по адресу
 

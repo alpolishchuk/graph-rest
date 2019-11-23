@@ -1,4 +1,6 @@
 aniso8601==6.0.0
+certifi==2019.9.11
+chardet==3.0.4
 Django==2.2.7
 django-filter==2.1.0
 djangorestframework==3.9.4
@@ -6,10 +8,13 @@ graphene==2.1.6
 graphene-django==2.3.2
 graphql-core==2.2
 graphql-relay==0.4.5
+idna==2.8
 promise==2.2.1
 psycopg2-binary==2.8.3
 pytz==2019.1
+requests==2.22.0
 Rx==1.6.1
 singledispatch==3.4.0.3
 six==1.12.0
 sqlparse==0.3.0
+urllib3==1.25.7

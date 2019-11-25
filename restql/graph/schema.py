@@ -5,6 +5,7 @@ from graphene_django.types import DjangoObjectType
 from restql.pizza.models import Pizza, Toppings
 from restql.pizza.forms import PizzaForm, ToppingsForm
 from graphene_django.forms.mutation import DjangoModelFormMutation
+import graphene_django_optimizer as gql_optimizer
 
 
 class PizzaType(DjangoObjectType):
@@ -41,6 +42,8 @@ class Query:
     topping = graphene.Field(ToppingsType, id=graphene.Int(), name=graphene.String(), quantity=graphene.Float())
     all_pizzas = graphene.List(PizzaType)
     all_toppings = graphene.List(ToppingsType)
+    pizzas_optimized = graphene.List(PizzaType)
+    toppings_optimized = graphene.List(ToppingsType)
 
     def resolve_pizza(self, info, **kwargs):
         id = kwargs.get('id')
@@ -72,3 +75,9 @@ class Query:
     def resolve_all_toppings(self, info, **kwargs):
         # We can easily optimize query count in the resolve method
         return Toppings.objects.select_related('pizza').all()
+
+    def resolve_pizzas_optimized(self, info, **kwargs):
+        return gql_optimizer.query(Pizza.objects.all(), info)
+
+    def resolve_toppings_optimized(self, info, **kwargs):
+        return gql_optimizer.query(Toppings.objects.select_related('pizza').all(), info)

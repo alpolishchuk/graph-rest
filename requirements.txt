@@ -6,6 +6,7 @@ django-filter==2.1.0
 djangorestframework==3.9.4
 graphene==2.1.6
 graphene-django==2.3.2
+graphene-django-optimizer==0.6.1
 graphql-core==2.2
 graphql-relay==0.4.5
 idna==2.8

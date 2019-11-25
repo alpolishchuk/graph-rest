@@ -5,8 +5,8 @@ from datetime import datetime
 PIZZA_NAMES = ('Margarita', 'BBQ', '4 Cheeze', 'Carbonara', 'Vegan', 'Meaty', 'Salami')
 TOPPING_NAMES = ('Tomato', 'Cheeze', 'Pork', 'Beef', 'Mushrooms', 'Sauce', 'Salami', 'Mozarella', 'Chicken')
 
-PIZZAS_QUANTITY_TO_CREATE = 1000
-TOPPINGS_QUANTITY_TO_CREATE = 1000
+PIZZAS_QUANTITY_TO_CREATE = 10000
+TOPPINGS_QUANTITY_TO_CREATE = 10000
 
 rest_pizza_time = datetime.now()
 for i in range(PIZZAS_QUANTITY_TO_CREATE):
@@ -19,7 +19,7 @@ for i in range(PIZZAS_QUANTITY_TO_CREATE):
         print(response.status_code, response.json())
         exit(1)
     if i % 100 == 0:
-        print(f'{i} pizzas created by rest')
+        print(f'{i} of {PIZZAS_QUANTITY_TO_CREATE} pizzas created by rest')
 print(f'Time elapsed on creating {PIZZAS_QUANTITY_TO_CREATE} pizzas by rest: {datetime.now() - rest_pizza_time}')
 
 
@@ -47,7 +47,7 @@ for i in range(PIZZAS_QUANTITY_TO_CREATE):
         print(response.status_code, response.json())
         exit(1)
     if i % 100 == 0:
-        print(f'{i} pizzas created by graph')
+        print(f'{i} of {PIZZAS_QUANTITY_TO_CREATE} pizzas created by graph')
 print(f'Time elapsed on creating {PIZZAS_QUANTITY_TO_CREATE} pizzas by graphql: {datetime.now() - graph_pizza_time}')
 
 all_pizzas = requests.get('http://127.0.0.1:8000/rest/pizza/').json()
@@ -66,7 +66,7 @@ for i in range(TOPPINGS_QUANTITY_TO_CREATE):
         print(response.status_code, response.json())
         exit(1)
     if i % 100 == 0:
-        print(f'{i} toppings created by rest')
+        print(f'{i} of {TOPPINGS_QUANTITY_TO_CREATE} toppings created by rest')
 print(f'Time elapsed on creating {TOPPINGS_QUANTITY_TO_CREATE} toppings by rest: {datetime.now() - rest_toppings_time}')
 
 graph_toppings_time = datetime.now()
@@ -94,5 +94,5 @@ for i in range(TOPPINGS_QUANTITY_TO_CREATE):
         print(response.status_code, response.json())
         exit(1)
     if i % 100 == 0:
-        print(f'{i} toppings created by graph')
+        print(f'{i} of {TOPPINGS_QUANTITY_TO_CREATE} toppings created by graph')
 print(f'Time elapsed on creating {TOPPINGS_QUANTITY_TO_CREATE} toppings by graphql: {datetime.now() - graph_toppings_time}')

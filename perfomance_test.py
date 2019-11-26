@@ -3,8 +3,9 @@ from datetime import datetime
 
 rest_get_time = datetime.now()
 response = requests.get('http://127.0.0.1:8000/rest/pizza/')
+end_response = datetime.now()
 entries_count = len(response.json())
-print(f'{entries_count} pizza entries by rest: {datetime.now() - rest_get_time}')
+print(f'{entries_count} pizza entries by rest: {end_response - rest_get_time}')
 
 graphql_get_time = datetime.now()
 query = """
@@ -55,8 +56,9 @@ print(f'{entries_count} pizza entries with id by optimized graphql: {datetime.no
 
 rest_get_time = datetime.now()
 response = requests.get('http://127.0.0.1:8000/rest/toppings/')
+end_response = datetime.now()
 entries_count = len(response.json())
-print(f'{entries_count} toppings entries by rest: {datetime.now() - rest_get_time}')
+print(f'{entries_count} toppings entries by rest: {end_response - rest_get_time}')
 
 graphql_get_time = datetime.now()
 query = """

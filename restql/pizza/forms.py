@@ -9,7 +9,7 @@ class PizzaForm(forms.ModelForm):
         fields = ('name', 'price')
 
 
-class ToppingsForm(forms.ModelForm):
+class ToppingForm(forms.ModelForm):
     class Meta:
         model = Toppings
         fields = ('name', 'quantity', 'pizza')

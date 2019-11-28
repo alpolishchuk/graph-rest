@@ -17,7 +17,7 @@ query = """
         }
     }
 """
-response = requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
+requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
 print(f'{entries_count} pizza entries with all fields by graphql: {datetime.now() - graphql_get_time}')
 
 graphql_get_time = datetime.now()
@@ -29,7 +29,7 @@ query = """
         }
     }
 """
-response = requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
+requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
 print(f'{entries_count} pizza entries with id and name by graphql: {datetime.now() - graphql_get_time}')
 
 graphql_get_time = datetime.now()
@@ -40,7 +40,7 @@ query = """
         }
     }
 """
-response = requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
+requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
 print(f'{entries_count} pizza entries with id by graphql: {datetime.now() - graphql_get_time}')
 
 graphql_get_time = datetime.now()
@@ -51,7 +51,7 @@ query = """
         }
     }
 """
-response = requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
+requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
 print(f'{entries_count} pizza entries with id by optimized graphql: {datetime.now() - graphql_get_time}')
 
 rest_get_time = datetime.now()
@@ -64,14 +64,18 @@ graphql_get_time = datetime.now()
 query = """
     query {
         allToppings {
+            id,
             name,
+            quantity,
             pizza {
-                name
+                id,
+                name,
+                price
             }
         }
     }
 """
-response = requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
+requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
 print(f'{entries_count} toppings entries with name and pizza name: {datetime.now() - graphql_get_time}')
 
 graphql_get_time = datetime.now()
@@ -85,5 +89,5 @@ query = """
         }
     }
 """
-response = requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
+requests.post('http://127.0.0.1:8000/graphql/', data={"query": query})
 print(f'{entries_count} toppings entries with name and pizza name optimized: {datetime.now() - graphql_get_time}')

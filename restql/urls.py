@@ -7,3 +7,4 @@ urlpatterns = [
     path(r'rest/', include('restql.rest.urls')),
     path(r'graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),
 ]
+

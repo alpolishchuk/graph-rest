@@ -1,21 +1,22 @@
 import graphene
-
+import graphene_django_optimizer as gql_optimizer
+from graphene_django.forms.mutation import DjangoModelFormMutation
 from graphene_django.types import DjangoObjectType
 
+from restql.pizza.forms import PizzaForm, ToppingForm
 from restql.pizza.models import Pizza, Toppings
-from restql.pizza.forms import PizzaForm, ToppingsForm
-from graphene_django.forms.mutation import DjangoModelFormMutation
-import graphene_django_optimizer as gql_optimizer
 
 
 class PizzaType(DjangoObjectType):
     class Meta:
         model = Pizza
+        interfaces = (graphene.relay.Node,)
 
 
-class ToppingsType(DjangoObjectType):
+class ToppingType(DjangoObjectType):
     class Meta:
         model = Toppings
+        interfaces = (graphene.relay.Node,)
 
 
 class PizzaMutation(DjangoModelFormMutation):
@@ -26,10 +27,10 @@ class PizzaMutation(DjangoModelFormMutation):
 
 
 class ToppingMutation(DjangoModelFormMutation):
-    topping = graphene.Field(ToppingsType)
+    topping = graphene.Field(ToppingType)
 
     class Meta:
-        form_class = ToppingsForm
+        form_class = ToppingForm
 
 
 class Mutation(graphene.ObjectType):
@@ -38,26 +39,34 @@ class Mutation(graphene.ObjectType):
 
 
 class Query:
-    pizza = graphene.Field(PizzaType, id=graphene.Int(), name=graphene.String(), price=graphene.Float())
-    topping = graphene.Field(ToppingsType, id=graphene.Int(), name=graphene.String(), quantity=graphene.Float())
+    pizza = graphene.relay.Node.Field(PizzaType)
     all_pizzas = graphene.List(PizzaType)
-    all_toppings = graphene.List(ToppingsType)
+    get_pizza = graphene.Field(PizzaType, id=graphene.Int(), name=graphene.String(), price=graphene.Float())
+
+    topping = graphene.relay.Node.Field(ToppingType)
+    get_topping = graphene.Field(ToppingType, id=graphene.Int(), name=graphene.String(), quantity=graphene.Float())
+    all_toppings = graphene.List(ToppingType)
+
     pizzas_optimized = graphene.List(PizzaType)
-    toppings_optimized = graphene.List(ToppingsType)
+    toppings_optimized = graphene.List(ToppingType)
 
-    def resolve_pizza(self, info, **kwargs):
-        id = kwargs.get('id')
+    def resolve_get_pizza(self, info, **kwargs):
+        pizza_id = kwargs.get('id')
         name = kwargs.get('name')
+        price = kwargs.get('price')
 
-        if id is not None:
-            return Pizza.objects.get(pk=id)
+        if pizza_id is not None:
+            return Pizza.objects.get(id=pizza_id)
 
         if name is not None:
-            return Pizza.objects.get(name=name)
+            return Pizza.objects.last()
+
+        if price is not None:
+            return Pizza.objects.filter(price=price).first()
 
         return None
 
-    def resolve_topping(self, info, **kwargs):
+    def resolve_get_topping(self, info, **kwargs):
         id = kwargs.get('id')
         name = kwargs.get('name')
 

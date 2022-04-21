@@ -1,19 +1,33 @@
 version: '3'
 
 services:
-  db:
+  dbase:
     image: postgres
     environment:
       POSTGRES_DB: restql_demo
       POSTGRES_USER: postgres
-  web:
+      POSTGRES_PASSWORD: "123"
+
+  django:
     build:
       context: .
-      dockerfile: Dockerfile
-    command: bash -c "while !</dev/tcp/db/5432; do sleep 1; done; python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+      dockerfile: django_app/Dockerfile
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/code
+      - ./django_app:/code
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - dbase
+
+  flask:
+    build:
+      context: .
+      dockerfile: flask_app/Dockerfile
+    command: bash -c "flask run --host=0.0.0.0 --port=6000"
+    volumes:
+      - ./flask_app:/code
+    ports:
+      - "6000:6000"
+    depends_on:
+      - dbase

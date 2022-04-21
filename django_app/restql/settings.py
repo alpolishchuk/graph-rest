@@ -81,9 +81,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'restql_demo',
-        'HOST': 'db',
+        'HOST': 'dbase',
         'PORT': '5432',
         'USER': 'postgres',
+        'PASSWORD': '123',
     }
 }
 

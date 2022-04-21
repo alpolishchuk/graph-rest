@@ -5,8 +5,8 @@ from datetime import datetime
 PIZZA_NAMES = ('Margarita', 'BBQ', '4 Cheeze', 'Carbonara', 'Vegan', 'Meaty', 'Salami')
 TOPPING_NAMES = ('Tomato', 'Cheeze', 'Pork', 'Beef', 'Mushrooms', 'Sauce', 'Salami', 'Mozarella', 'Chicken')
 
-PIZZAS_QUANTITY_TO_CREATE = 10000
-TOPPINGS_QUANTITY_TO_CREATE = 10000
+PIZZAS_QUANTITY_TO_CREATE = 1000
+TOPPINGS_QUANTITY_TO_CREATE = 1000
 
 rest_pizza_time = datetime.now()
 for i in range(PIZZAS_QUANTITY_TO_CREATE):

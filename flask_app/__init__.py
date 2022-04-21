@@ -9,7 +9,7 @@ app.add_url_rule(
             "graphql",
             schema=Schema(
                 query=Query,
-                # mutation=Mutation,
+                mutation=Mutation,
             ),
             graphiql=True,
         ),

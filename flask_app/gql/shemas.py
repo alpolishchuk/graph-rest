@@ -1,8 +1,10 @@
 import graphene as g
-from graphene import ObjectType
+from graphene import relay, ObjectType
 from graphene_sqlalchemy import SQLAlchemyObjectType
+from graphene_sqlalchemy_filter import FilterableConnectionField
 from graphene.types.resolver import dict_or_attr_resolver, dict_resolver
 
+from .filters import ToppingsFilter
 from ..dbmodels import Pizza, Toppings
 
 
@@ -33,7 +35,31 @@ class PizzaModelObjectType(SQLAlchemyObjectType):
     def resolve_toppings_count(self, *args):
         return len(self.toppings)
 
+    @classmethod
+    def get_query(cls, info, data=None):
+        query = Pizza.query.outerjoin(Toppings, Toppings.pizza_id == Pizza.id)
+        if data.id:
+            query = query.filter(Pizza.id == data.id)
+        if data.name:
+            query = query.filter(Pizza.name == data.name)
+        return query.all()
+
 
 class ToppingsModelObjectType(SQLAlchemyObjectType):
     class Meta:
         model = Toppings
+
+
+class ToppingsConnection(relay.Connection):
+    class Meta:
+        node = ToppingsModelObjectType
+
+    total_count = g.Int()
+
+    def resolve_total_count(info, *args):
+        return info.length
+
+
+class ToppingsFilterableConnection(FilterableConnectionField):
+    def __init__(self):
+        super().__init__(ToppingsConnection, filters=ToppingsFilter())

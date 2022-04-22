@@ -9,7 +9,7 @@ from .shemas import (
     DictResolveObjectType, AttrResolveObjectType, PizzaModelObjectType, ToppingsModelObjectType, ToppingsConnection,
     ToppingsFilterableConnection
 )
-from .mutation import CreatePizza
+from .mutation import CreatePizza, UpdatePizza
 
 
 class Query(g.ObjectType):
@@ -42,4 +42,4 @@ class Query(g.ObjectType):
 
 class Mutation(g.ObjectType):
     create_pizza = CreatePizza.Field()
-    # update_pizza = s.UpdateClaimV2.Field()
+    update_pizza = UpdatePizza.Field()

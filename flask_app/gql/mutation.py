@@ -34,7 +34,6 @@ class CreatePizza(Mutation):
             db.session.rollback()
             raise
 
-        logger.error(pizza.id)
         with suppress(Exception):
             for topping in toppings:
                 topping.pizza_id = pizza.id
@@ -50,11 +49,12 @@ class UpdatePizza(Mutation):
         data = UpdatePizzaInputType(required=True)
 
     def mutate(self, info: g.ResolveInfo, data: UpdatePizzaInputType, **kwargs) -> Pizza:
-        pizza_data = PizzaModel(data)
-        pizza_data.validate()
         pizza_id = data.pop('id', None)
         if not pizza_id:
             raise Exception("Please provide pizza id to update")
+
+        pizza_data = PizzaModel(data)
+        pizza_data.validate()
 
         toppings_data = data.pop('toppings', None)
         Toppings.query.filter(Toppings.pizza_id == pizza_id).update({"pizza_id": None}, synchronize_session="fetch")
@@ -62,17 +62,15 @@ class UpdatePizza(Mutation):
             toppings = Toppings.query.filter(Toppings.id.in_(toppings_data)).all()
 
         try:
-            pizza = Pizza.query.filter(Pizza.id == pizza_id).update(data, synchronize_session="fetch")
-            db.session.add(pizza)
+            Pizza.query.filter(Pizza.id == pizza_id).update(data, synchronize_session="fetch")
             db.session.commit()
         except Exception:
             db.session.rollback()
             raise
 
-        logger.error(pizza.id)
         with suppress(Exception):
             for topping in toppings:
-                topping.pizza_id = pizza.id
+                topping.pizza_id = pizza_id
             db.session.commit()
 
-        return Pizza.query.filter(Pizza.id == pizza.id).one_or_none()
+        return Pizza.query.filter(Pizza.id == pizza_id).one_or_none()

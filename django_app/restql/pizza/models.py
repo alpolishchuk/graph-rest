@@ -9,6 +9,6 @@ class Pizza(models.Model):
 
 class Toppings(models.Model):
 
-    pizza = models.ForeignKey(to=Pizza, on_delete=models.CASCADE)
+    pizza = models.ForeignKey(to=Pizza, on_delete=models.CASCADE, null=True)
     name = models.TextField()
     quantity = models.FloatField(default=0.0)

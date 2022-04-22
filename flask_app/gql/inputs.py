@@ -16,5 +16,6 @@ class CreatePizzaInputType(InputObjectType):
 
 
 class UpdatePizzaInputType(PizzaInputType):
+    """Graphene input for update pizza"""
     price = g.Float()
     toppings = g.List(g.Int)

@@ -38,10 +38,11 @@ class PizzaModelObjectType(SQLAlchemyObjectType):
     @classmethod
     def get_query(cls, info, data=None):
         query = Pizza.query.outerjoin(Toppings, Toppings.pizza_id == Pizza.id)
-        if data.id:
-            query = query.filter(Pizza.id == data.id)
-        if data.name:
-            query = query.filter(Pizza.name == data.name)
+        if data:
+            if data.id:
+                query = query.filter(Pizza.id == data.id)
+            if data.name:
+                query = query.filter(Pizza.name == data.name)
         return query.all()
 
 
